@@ -1,0 +1,26 @@
+version: "3.6"
+
+services:
+    backend:
+        container_name: students-admin-server
+        build: ./
+        command: npm start
+
+        environment: 
+            NODE_ENV: development
+            MONGO_HOST: mongodb://mongo:27017/students-admin
+
+        working_dir: /usr/src/vlog
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - ./:/usr/src/students-admin
+            - /usr/src/vlog/node_modules
+
+    database:
+        container_name: mongo
+        image: mongo
+        ports: 
+            - "27017:27017"
+        volumes: 
+            - ./:/usr/src/students-admin

@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Serve Angular App in bg",
+      "type": "shell",
+      "command": "cd public/ && npm run debug-bg"
+    },
+    {
+      "label": "Stop Serve Angular App in bg",
+      "type": "shell",
+      "command": "cd public/ && npm run stop-debug-bg"
+    }
+  ]
+}

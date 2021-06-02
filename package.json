@@ -1,0 +1,27 @@
+{
+  "name": "students-admin",
+  "version": "1.0.0",
+  "description": "Admin tool to load and maintain students information.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index --ignore public/ --ignore node_modules/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kevinoob-design/students-admin.git"
+  },
+  "author": "Hector",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kevinoob-design/students-admin/issues"
+  },
+  "homepage": "https://github.com/Kevinoob-design/students-admin#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

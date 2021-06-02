@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "command": "npm start",
+            "name": "Run server",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "preLaunchTask": "Serve Angular App in bg",
+            "postDebugTask": "Stop Serve Angular App in bg",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "name": "Run client",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/public"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Compound",
+            "configurations": [ "Run server", "Run client" ],
+            "presentation": {
+                "hidden": false,
+                "group": "Server/Client",
+                "order": 1
+            }
+        }
+    ]
+}
