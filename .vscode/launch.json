@@ -1,6 +1,8 @@
 {
     "configurations": [
         {
+            "preLaunchTask": "Load DB in Docker",
+            "postDebugTask": "Stop DB in Docker",
             "command": "npm start",
             "name": "Run server",
             "request": "launch",
@@ -20,6 +22,7 @@
     "compounds": [
         {
             "name": "Compound",
+            "stopAll": true,
             "configurations": [ "Run server", "Run client" ],
             "presentation": {
                 "hidden": false,

@@ -10,6 +10,16 @@
       "label": "Stop Serve Angular App in bg",
       "type": "shell",
       "command": "cd public/ && npm run stop-debug-bg"
+    },
+    {
+      "label": "Load DB in Docker",
+      "type": "shell",
+      "command": "docker compose up database -d"
+    },
+    {
+      "label": "Stop DB in Docker",
+      "type": "shell",
+      "command": "docker compose down database"
     }
   ]
 }
