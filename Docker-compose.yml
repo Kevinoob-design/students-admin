@@ -8,15 +8,14 @@ services:
 
         environment: 
             NODE_ENV: development
-            PORT: 3210
+            PORT: 3000
             MONGO_HOST: mongodb://mongo:27018/students-admin
 
         working_dir: /usr/src/students-admin
         ports: 
-            - "3210:3210"
+            - "3000:3000"
         volumes: 
-            - ./:/usr/src/students-admin
-            - /usr/src/students-admin/node_modules
+            - ./:/usr/src/students-admin/server
 
     database:
         container_name: mongo

@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index --ignore public/ --ignore node_modules/",
-    "build-client": "cd public/ && npm install && npm run build"
+    "start": "node index.js",
+    "dev": "nodemon index.js --ignore public/ --ignore node_modules/"
   },
   "repository": {
     "type": "git",

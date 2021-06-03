@@ -4,12 +4,12 @@
     {
       "label": "Serve Angular App in bg",
       "type": "shell",
-      "command": "cd public/ && npm run debug-bg"
+      "command": "cd www/ && npm run debug-bg"
     },
     {
       "label": "Stop Serve Angular App in bg",
       "type": "shell",
-      "command": "cd public/ && npm run stop-debug-bg"
+      "command": "cd www/ && npm run stop-debug-bg"
     },
     {
       "label": "Load DB in Docker",

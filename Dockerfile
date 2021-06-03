@@ -1,12 +1,20 @@
-FROM node:14.16.0
-
+# Angular App Build.
+FROM node:14.16.0 AS client-build
 WORKDIR /usr/src/students-admin
+COPY www/ ./www/
+RUN cd www && npm install && npm run build
 
-COPY ./package*.json ./
+# Server App setup.
+FROM node:14.16.0 AS server
+WORKDIR /usr/src/students-admin
+COPY server/ ./server/
+RUN cd server && npm install
 
-RUN npm install \ 
-    npm run build-client
-
-COPY ./ ./
+# Final dokcerize
+FROM node:14.16.0
+WORKDIR /usr/src/students-admin
+COPY --from=client-build /usr/src/students-admin/www/dist ./dist
+COPY --from=server /usr/src/students-admin/server ./
+RUN ls
 
 CMD [ "/bin/bash" ]

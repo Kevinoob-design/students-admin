@@ -3,7 +3,8 @@
         {
             "preLaunchTask": "Load DB in Docker",
             "postDebugTask": "Stop DB in Docker",
-            "command": "npm start",
+            "cwd": "${workspaceFolder}/server",
+            "command": "npm run dev",
             "name": "Run server",
             "request": "launch",
             "type": "node-terminal"
@@ -16,7 +17,7 @@
             "reAttach": true,
             "name": "Run client",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/public"
+            "webRoot": "${workspaceFolder}/www"
         }
     ],
     "compounds": [
