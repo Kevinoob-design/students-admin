@@ -1,4 +1,4 @@
-import { MongoConnection } from "./Connection"
+import { MongoConnection } from "./Connection.js"
 
 class Crud extends MongoConnection {
 
@@ -20,7 +20,7 @@ class Crud extends MongoConnection {
 
             await this._connect()
 
-            this.dbCollection = this.MongoClient.collection(this.table)
+            this.dbCollection = this.db.collection(this.table)
 
             return
 
@@ -30,42 +30,50 @@ class Crud extends MongoConnection {
         }
     }
 
-    async find(where = {}, page = 1, limit = 15) {
+    async find(filter = {}, page = 1, limit = 15) {
 
         try {
 
-            if (where && typeof where !== "object") throw new Error("Where must be an object")
+            await this.initializeConnection()
 
-            page = (page > 0) ? page : 1
+            if (filter && typeof filter !== "object") throw new Error("Where must be an object")
 
-            limit = (limit > 0 && limit < 15) ? limit : 10
+            if (filter._id) filter._id = this.ObjectId(filter._id)
 
-            const [ documents ] = await this.dbCollection.aggregate([
+            page = (page > 0) ? Number(page) : 1
+
+            limit = (limit > 0 || limit < 15) ? Number(limit) : 10
+
+            const [ { data, count } ] = await this.dbCollection.aggregate([
 
                 {
                     $facet: {
 
                         data: [
 
-                            { $match: { where, ...this.where } },
+                            { $match: { ...filter, ...this.where } },
 
-                            { $limit: limit },
+                            { $skip: (page - 1) * limit },
 
-                            { $skip: (page - 1) * limit }
+                            { $limit: limit }
                         ],
 
                         count: [
 
-                            { $match: { where, ...this.where } },
+                            { $match: { ...filter, ...this.where } },
 
                             { $count: "count" }
                         ]
-                    }
-                }
+                    },
+                },
+
+                { $project: { data: 1, count: "$count.count" } }
 
             ], { allowDiskUse: true }).toArray()
 
-            return { ...documents }
+            this.mongoClient.close()
+
+            return { data, count: count[ 0 ], currentPage: page }
 
         } catch (error) {
 
@@ -73,13 +81,23 @@ class Crud extends MongoConnection {
         }
     }
 
-    async findOne(where = {}) {
+    async findOne(filter = {}) {
 
         try {
 
-            if (where && typeof where !== "object") throw new Error("Where must be an object")
+            await this.initializeConnection()
 
-            return await this.dbCollection.findOne({ where, ...this.where })
+            if (filter && typeof filter !== "object") throw new Error("Where must be an object")
+
+            if (filter._id) filter._id = this.ObjectId(filter._id)
+
+            const document = await this.dbCollection.findOne({ ...filter, ...this.where })
+
+            this.mongoClient.close()
+
+            if (!document) throw new Error("No student found")
+
+            return document
 
         } catch (error) {
 
@@ -91,11 +109,17 @@ class Crud extends MongoConnection {
 
         try {
 
+            await this.initializeConnection()
+
             if (!doc && typeof doc !== "object") throw new Error("Doc must be an object")
 
             doc.createdDate = new Date()
 
-            return await this.dbCollection.insertOne(doc)
+            const { ops } = await this.dbCollection.insertOne(doc)
+
+            this.mongoClient.close()
+
+            return ops[ 0 ]
 
         } catch (error) {
 
@@ -103,24 +127,30 @@ class Crud extends MongoConnection {
         }
     }
 
-    async findOneAndUpdate(updateFields, where) {
+    async findOneAndUpdate(updateFields, filter) {
 
         try {
+
+            await this.initializeConnection()
 
             if (!updateFields && typeof updateFields !== "object") throw new Error("Fields must be an object")
 
             if (updateFields._id) throw new Error("ID cannot be changed")
 
-            if (!where && typeof where !== "object") throw new Error("Where must be an object")
+            if (!filter && typeof filter !== "object") throw new Error("Where must be an object")
 
-            return await this.dbCollection.findOneAndUpdate(
+            const document = await this.dbCollection.findOneAndUpdate(
 
-                { ...where, ...this.where },
+                { ...filter, ...this.where },
 
                 { $set: updateFields },
 
                 { returnDocument: "after" }
             )
+
+            this.mongoClient.close()
+
+            return document
 
         } catch (error) {
 
@@ -129,4 +159,4 @@ class Crud extends MongoConnection {
     }
 }
 
-module.exports = { Crud }
+export { Crud }

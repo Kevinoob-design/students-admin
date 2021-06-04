@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb"
+import MongoClient from "mongodb"
 
 class MongoConnection {
 
@@ -6,21 +6,18 @@ class MongoConnection {
 
         try {
 
-            const clientMongo = new MongoClient(process.env.MONGO_HOST, {
+            this.mongoClient = await new MongoClient(process.env.MONGO_HOST, {
 
-                useNewUrlParser: true, useUnifiedTopology: true,
-
-                auth: {
-
-                    user: process.env.MONGO_USR,
-                    password: process.env.MONGO_PASS
-
-                },
+                useNewUrlParser: true, useUnifiedTopology: true
             })
 
-            await clientMongo.connect()
+            await this.mongoClient.connect()
 
-            this.MongoClient = clientMongo.db(dataSource.DB_NAME)
+            this.db = this.mongoClient.db(process.env.DB_NAME)
+
+            this.ObjectId = MongoClient.ObjectId
+
+            return
 
         } catch (error) {
 

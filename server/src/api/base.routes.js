@@ -2,9 +2,8 @@ import { Router } from "express"
 
 class BaseRoute {
 
-    constructor (path) {
+    constructor () {
 
-        this.path = path
         this.router = Router()
     }
 
@@ -15,7 +14,7 @@ class BaseRoute {
         res.status(200).json({ success: true, data });
     }
 
-    noOkResponse(res, error = "Something went wrong") {
+    notOkResponse(res, error = "Something went wrong") {
 
         const errorToShow = (error && typeof error.message === 'string') ?
             error.message : "Something went wrong"
