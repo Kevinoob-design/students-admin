@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
+import { MatPaginator } from '@angular/material/paginator'
+import { MatTableDataSource } from '@angular/material/table'
 
 export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  name: string
+  lastName: string
+  age: number
+  bio: string
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
+  { name: "Hector", lastName: 'Hydrogen', age: 1.0079, bio: 'H' },
+  { name: "Hector", lastName: 'Helium', age: 4.0026, bio: 'He' },
+  { name: "Hector", lastName: 'Lithium', age: 6.941, bio: 'Li' },
+  { name: "Hector", lastName: 'Beryllium', age: 9.0122, bio: 'Be' },
+  { name: "Hector", lastName: 'Boron', age: 10.811, bio: 'B' },
+  { name: "Hector", lastName: 'Carbon', age: 12.0107, bio: 'C' },
+  { name: "Hector", lastName: 'Nitrogen', age: 14.0067, bio: 'N' },
+  { name: "Hector", lastName: 'Oxygen', age: 15.9994, bio: 'O' },
+  { name: "Hector", lastName: 'Fluorine', age: 18.9984, bio: 'F' },
+  { name: "Hector", lastName: 'Neon', age: 20.1797, bio: 'Ne' },
+]
 
 @Component({
   selector: 'app-table',
@@ -26,13 +28,18 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: [ './table.component.css' ]
 })
 
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = [ 'position', 'name', 'weight', 'symbol' ];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = [ 'Name', 'Last Name', 'Age', 'Bio' ]
+  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA)
+  @ViewChild(MatPaginator) paginator: any
 
   constructor () {}
 
   ngOnInit(): void {}
 
+  ngAfterViewInit() {
+
+    this.dataSource.paginator = this.paginator
+  }
 }

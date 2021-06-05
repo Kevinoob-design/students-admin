@@ -1,0 +1,29 @@
+.form-container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 35%;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.flex-item {
+  margin-left: 10px;
+}
+
+.form {
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-grow: 1;
+}

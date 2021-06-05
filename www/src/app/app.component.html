@@ -1,12 +1,11 @@
-<div id="root">
-    <h1>Students</h1>
+<div>
+    <p>
+        <mat-toolbar color="primary">
+            <span>Students Admin</span>
+        </mat-toolbar>
+    </p>
 
-    <nav>
-        <ul>
-            <li><a routerLink="" routerLinkActive="active">First Component</a></li>
-            <li><a routerLink="form" routerLinkActive="active">Second Component</a></li>
-        </ul>
-    </nav>
-
-    <router-outlet></router-outlet>
+    <div id="content">
+        <router-outlet></router-outlet>
+    </div>
 </div>
