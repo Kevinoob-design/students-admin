@@ -1,4 +1,4 @@
-import { MongoConnection } from "./Connection.js"
+import { MongoConnection } from "./connection.js"
 
 class Crud extends MongoConnection {
 

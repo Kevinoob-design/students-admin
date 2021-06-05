@@ -1,4 +1,4 @@
-import { Crud } from "../../db/Crud.js"
+import { Crud } from "../../db/crud.js"
 import { buildStudent } from "./model/student.factory.js"
 
 class StudentsController extends Crud {
