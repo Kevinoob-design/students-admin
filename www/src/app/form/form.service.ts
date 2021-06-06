@@ -1,7 +1,7 @@
 import { environment } from '../../environments/environment'
 import { student } from "../student"
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpParams } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { okResponse } from '../response'
 

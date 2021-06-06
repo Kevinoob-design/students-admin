@@ -1,10 +1,10 @@
 class Student {
 
-    constructor (name, lastName, birthDate, bio) {
+    constructor (name, lastName, age, bio) {
 
         this.name = name
         this.lastName = lastName
-        this.birthDate = birthDate
+        this.age = age
         this.bio = bio
     }
 }

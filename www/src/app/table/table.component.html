@@ -1,6 +1,8 @@
 <div class="table-container">
     <div class="button-container">
-        <button mat-mini-fab color="" aria-label="Upload students">
+        <input (change)="uploadStudentsViaXML($event)" accept=".xml" hidden type="file" name="file" id="fileInput" #fileInput>
+
+        <button (click)="fileInput.click()" mat-mini-fab color="" aria-label="Upload students">
             <mat-icon>upload</mat-icon>
         </button>
 

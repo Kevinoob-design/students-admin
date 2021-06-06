@@ -1,7 +1,7 @@
 import { environment } from '../../environments/environment'
 import { student } from "../student"
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpParams } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { resultsResponse, okResponse } from '../response'
 
@@ -30,5 +30,12 @@ export class TableService {
     const url = `${this.studentsUrl}/${_id}`
 
     return this.http.delete<okResponse<student>>(url)
+  }
+
+  insertStudents(students: student[]): Observable<okResponse<string>> {
+
+    const url = `${this.studentsUrl}/insertStudents`
+
+    return this.http.post<okResponse<string>>(url, students)
   }
 }

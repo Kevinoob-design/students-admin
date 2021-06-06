@@ -58,6 +58,22 @@ class StudentsRoute extends BaseRoute {
             }
         })
 
+        this.router.post("/insertStudents", bodyParser.json(), async (req, res) => {
+
+            try {
+
+                const obj = req.body
+
+                const data = await studentsController.insertStudents(obj)
+
+                this.createResponse(res, data)
+
+            } catch (error) {
+
+                this.notOkResponse(res, error)
+            }
+        })
+
         this.router.put("/:_id", bodyParser.json(), async (req, res) => {
 
             try {

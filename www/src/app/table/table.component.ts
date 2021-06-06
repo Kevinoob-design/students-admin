@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { student } from '../student'
 import { TableService } from './table.service'
-
+import { xml2json, xml2js } from "xml-js"
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -40,6 +40,39 @@ export class TableComponent implements OnInit, AfterViewInit {
     })
   }
 
+  uploadStudentsViaXML($event: any) {
+
+    const studentsFile = $event.target.files[ 0 ]
+
+    const fileReader = new FileReader();
+
+    fileReader.onload = (e) => {
+
+      const fileResult: string | undefined = fileReader.result?.toString()
+
+      const jsResultFromXML: any = xml2js(fileResult || "", {
+        compact: true
+      })
+
+      if (jsResultFromXML) {
+
+        const students = jsResultFromXML?.students?.student?.map((student: any) => {
+          return {
+            name: student?.name?._text || "",
+            lastName: student?.lastname?._text || "",
+            age: student?.age?._text || "",
+          }
+        })
+
+        if (students && students.length > 0) this.insertMultipleStudents(students)
+      }
+    }
+
+    fileReader.readAsText(studentsFile);
+
+    return
+  }
+
   getStudents(limit = 10, page = 1) {
 
     this.tableService.getStudents({ limit, page }).subscribe(students => {
@@ -51,6 +84,16 @@ export class TableComponent implements OnInit, AfterViewInit {
   getStudent(_id: string) {
 
     this.router.navigate([ "form" ], { queryParams: { id: _id } })
+  }
+
+  insertMultipleStudents(students: student[]) {
+
+    this.tableService.insertStudents(students).subscribe(result => {
+
+      if (result.success) this._snackBar.open("Students payload added successfully", "Dismiss")
+
+      this.getStudents()
+    })
   }
 
   deleteStudent(_id: string) {

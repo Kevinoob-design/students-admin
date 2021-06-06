@@ -28,7 +28,7 @@ export class FormComponent implements OnInit {
       name: [ null, [ Validators.required ] ],
       lastName: [ null, Validators.required ],
       bio: [ null, Validators.required ],
-      birthDate: [ null, Validators.required ]
+      age: [ null, Validators.required ]
     });
   }
 

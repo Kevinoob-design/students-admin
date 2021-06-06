@@ -46,6 +46,33 @@ class StudentsController extends Crud {
         }
     }
 
+    async insertStudents(studentsArray) {
+
+        try {
+
+            if (!studentsArray && studentsArray.length > 0) throw new Error("No student were provided")
+
+            const students = studentsArray.map(student => buildStudent(student))
+
+            await this.initializeConnection()
+
+            const lot = Math.ceil(students.length / 1000)
+
+            for (let i = 0; i < lot; i++) {
+
+                await this.dbCollection.insertMany(students.splice(0, 1000))
+            }
+
+            await this.mongoClient.close()
+
+            return "All the students inserted"
+
+        } catch (error) {
+
+            throw (error)
+        }
+    }
+
     async updateStudent(_id, studentObj) {
 
         try {

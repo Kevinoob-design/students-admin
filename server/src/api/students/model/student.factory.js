@@ -13,13 +13,13 @@ const buildStudent = (student) => {
         if (!student.lastName || typeof student.lastName !== "string")
             throw new Error("Missing last name of the student")
 
-        if (!student.birthDate)
+        if (!student.age || typeof Number(student.age) !== "number")
             throw new Error("Missing the date of birth of the student")
 
-        if (!student.bio || typeof student.bio !== "string")
+        if (student.bio && typeof student.bio !== "string")
             throw new Error("Missing the biography of the student")
 
-        return new Student(student.name, student.lastName, new Date(student.birthDate), student.bio)
+        return new Student(student.name, student.lastName, Number(student.age), student.bio || "")
 
     } catch (error) {
 

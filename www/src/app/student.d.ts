@@ -2,6 +2,6 @@ export interface student {
     _id?: string,
     name: string,
     lastName: string,
-    birthDate: Date,
+    age: number,
     bio?: string
 }
