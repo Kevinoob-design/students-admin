@@ -20,6 +20,20 @@ class StudentsController extends Crud {
         }
     }
 
+    async getStudentBio(_id) {
+
+        try {
+
+            const student = await this.findOne({ _id })
+
+            return student.bio
+
+        } catch (error) {
+
+            throw (error)
+        }
+    }
+
     async getStudents({ filter, page, limit }) {
 
         try {

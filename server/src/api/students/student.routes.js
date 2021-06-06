@@ -1,6 +1,11 @@
 import { BaseRoute } from "../base.routes.js"
 import { StudentsController } from "./student.controller.js"
 import bodyParser from "body-parser"
+import multipart from "connect-multiparty"
+
+const multipartMiddleware = multipart({
+    uploadDir: 'uploads'
+})
 
 class StudentsRoute extends BaseRoute {
 
@@ -42,11 +47,30 @@ class StudentsRoute extends BaseRoute {
             }
         })
 
-        this.router.post("/", bodyParser.json(), async (req, res) => {
+        this.router.get("/:_id/downloadBio", async (req, res) => {
+
+            try {
+
+                const { _id } = req.params
+
+                const data = await studentsController.getStudentBio(_id)
+
+                res.download(data)
+
+            } catch (error) {
+
+                this.notOkResponse(res, error)
+            }
+        })
+
+        this.router.post("/", bodyParser.json(), multipartMiddleware, async (req, res) => {
 
             try {
 
                 const obj = req.body
+
+                if (req.files && req.files.uploads && req.files.uploads.path) 
+                    obj.bio = req.files.uploads.path
 
                 const data = await studentsController.insertStudent(obj)
 
@@ -74,13 +98,16 @@ class StudentsRoute extends BaseRoute {
             }
         })
 
-        this.router.put("/:_id", bodyParser.json(), async (req, res) => {
+        this.router.put("/:_id", bodyParser.json(), multipartMiddleware, async (req, res) => {
 
             try {
 
                 const { _id } = req.params
 
                 const obj = req.body
+
+                if (req.files && req.files.uploads && req.files.uploads.path) 
+                    obj.bio = req.files.uploads.path
 
                 const data = await studentsController.updateStudent(_id, obj)
 

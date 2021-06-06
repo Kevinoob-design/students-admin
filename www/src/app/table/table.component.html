@@ -1,6 +1,7 @@
 <div class="table-container">
     <div class="button-container">
-        <input (change)="uploadStudentsViaXML($event)" accept=".xml" hidden type="file" name="file" id="fileInput" #fileInput>
+        <input (change)="uploadStudentsViaXML($event)" accept=".xml" hidden type="file" name="file" id="fileInput"
+            #fileInput>
 
         <button (click)="fileInput.click()" mat-mini-fab color="" aria-label="Upload students">
             <mat-icon>upload</mat-icon>
@@ -29,7 +30,13 @@
 
             <ng-container matColumnDef="Bio">
                 <th class="w-5" mat-header-cell *matHeaderCellDef> bio </th>
-                <td mat-cell *matCellDef="let element"> {{element.bio}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <button (click)="downloadBio(element._id)"
+                        [class.buttonInvisible]='(!hoveredRow || !element.bio) || (element._id !== hoveredRow._id && element.bio)'
+                        type="button" class="btn-action" mat-button color="">
+                        <mat-icon>download</mat-icon>
+                    </button>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="Actions">

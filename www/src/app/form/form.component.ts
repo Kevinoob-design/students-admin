@@ -14,6 +14,7 @@ import { FormService } from './form.service'
 export class FormComponent implements OnInit {
 
   _id: string | undefined = undefined
+  studentsBioFile: any | undefined = undefined
   form: FormGroup
 
   constructor (
@@ -27,7 +28,6 @@ export class FormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [ null, [ Validators.required ] ],
       lastName: [ null, Validators.required ],
-      bio: [ null, Validators.required ],
       age: [ null, Validators.required ]
     });
   }
@@ -48,18 +48,33 @@ export class FormComponent implements OnInit {
     })
   }
 
-  saveStudent() {
+  uploadStudentsBio($event: any) {
 
-    if (!this._id) return this.insertStudent()
-
-    this.updateStudent(this._id, this.form.value)
+    this.studentsBioFile = $event.target.files[ 0 ]
   }
 
-  insertStudent() {
+  saveStudent() {
+
+    const formData = new FormData();
+
+    if (this.studentsBioFile) {
+      formData.append("uploads", this.studentsBioFile, this.studentsBioFile.name);
+    }
+
+    formData.append("name", this.form.value.name);
+    formData.append("lastName", this.form.value.lastName);
+    formData.append("age", this.form.value.age);
+
+    if (!this._id) return this.insertStudent(formData)
+
+    this.updateStudent(this._id, formData)
+  }
+
+  insertStudent(formData: FormData) {
 
     const student: student = this.form.value
 
-    this.formService.insertStudent(student).subscribe(student => {
+    this.formService.insertStudent(formData).subscribe(student => {
 
       if (student.success) this._snackBar.open("Student added successfully", "Dismiss");
 
@@ -67,7 +82,7 @@ export class FormComponent implements OnInit {
     })
   }
 
-  updateStudent(_id: string, student: student) {
+  updateStudent(_id: string, student: FormData) {
 
     this.formService.updateStudent(_id, student).subscribe(student => {
 

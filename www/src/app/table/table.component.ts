@@ -5,7 +5,9 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { student } from '../student'
 import { TableService } from './table.service'
-import { xml2json, xml2js } from "xml-js"
+import { xml2js } from "xml-js"
+import { environment } from '../../environments/environment'
+import { saveAs } from "file-saver"
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -50,27 +52,42 @@ export class TableComponent implements OnInit, AfterViewInit {
 
       const fileResult: string | undefined = fileReader.result?.toString()
 
-      const jsResultFromXML: any = xml2js(fileResult || "", {
-        compact: true
-      })
+      try {
 
-      if (jsResultFromXML) {
-
-        const students = jsResultFromXML?.students?.student?.map((student: any) => {
-          return {
-            name: student?.name?._text || "",
-            lastName: student?.lastname?._text || "",
-            age: student?.age?._text || "",
-          }
+        const jsResultFromXML: any = xml2js(fileResult || "", {
+          compact: true
         })
 
-        if (students && students.length > 0) this.insertMultipleStudents(students)
+        if (jsResultFromXML) {
+
+          let students = jsResultFromXML?.students?.student
+
+          if (!students) throw new Error("No students on XML file")
+
+          students = students.length ? students.map((student: any) => {
+            return {
+              name: student?.name?._text || "",
+              lastName: student?.lastname?._text || "",
+              age: student?.age?._text || "",
+            }
+          }) : {
+            name: students?.name?._text || "",
+            lastName: students?.lastname?._text || "",
+            age: students?.age?._text || "",
+          }
+
+          if (students.length && students.length > 0) this.insertMultipleStudents(students)
+
+          if (students && !students.length) this.insertStudent(students)
+        }
+
+      } catch (error) {
+
+        this._snackBar.open((error && error.message) ? error.message : "Students payload must be in valid XML format", "Dismiss")
       }
     }
 
     fileReader.readAsText(studentsFile);
-
-    return
   }
 
   getStudents(limit = 10, page = 1) {
@@ -86,6 +103,16 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.router.navigate([ "form" ], { queryParams: { id: _id } })
   }
 
+  insertStudent(student: student) {
+
+    this.tableService.insertStudent(student).subscribe(result => {
+
+      if (result.success) this._snackBar.open("Students payload added successfully", "Dismiss")
+
+      this.getStudents()
+    })
+  }
+
   insertMultipleStudents(students: student[]) {
 
     this.tableService.insertStudents(students).subscribe(result => {
@@ -93,6 +120,22 @@ export class TableComponent implements OnInit, AfterViewInit {
       if (result.success) this._snackBar.open("Students payload added successfully", "Dismiss")
 
       this.getStudents()
+    })
+  }
+
+  downloadBio(_id: string) {
+    this.tableService.getStudentBio(_id).subscribe(blob => {
+
+      if (!blob) {
+
+        this._snackBar.open("Unable to download student bio", "Dismiss")
+
+        return
+      }
+
+      this._snackBar.open("Student bio downloaded successfully", "Dismiss")
+
+      saveAs(blob, _id)
     })
   }
 

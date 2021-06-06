@@ -25,6 +25,13 @@ export class TableService {
     return this.http.get<resultsResponse<student[]>>(url)
   }
 
+  getStudentBio(_id: string): Observable<any> {
+
+    const url = `${this.studentsUrl}/${_id}/downloadBio`
+
+    return this.http.get(url, { responseType: 'blob' })
+  }
+
   deleteStudent(_id: string): Observable<okResponse<student>> {
 
     const url = `${this.studentsUrl}/${_id}`
@@ -37,5 +44,10 @@ export class TableService {
     const url = `${this.studentsUrl}/insertStudents`
 
     return this.http.post<okResponse<string>>(url, students)
+  }
+
+  insertStudent(student: student): Observable<okResponse<student>> {
+
+    return this.http.post<okResponse<student>>(this.studentsUrl, student)
   }
 }

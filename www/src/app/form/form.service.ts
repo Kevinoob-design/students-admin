@@ -12,7 +12,7 @@ export class FormService {
 
   constructor (private http: HttpClient) {}
 
-  insertStudent(student: student): Observable<okResponse<student>> {
+  insertStudent(student: FormData): Observable<okResponse<student>> {
 
     return this.http.post<okResponse<student>>(this.studentsUrl, student)
   }
@@ -24,7 +24,7 @@ export class FormService {
     return this.http.get<okResponse<student>>(url)
   }
 
-  updateStudent(_id: string, student: student): Observable<okResponse<student>> {
+  updateStudent(_id: string, student: FormData): Observable<okResponse<student>> {
 
     const url = `${this.studentsUrl}/${_id}`
 
