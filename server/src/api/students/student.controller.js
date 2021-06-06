@@ -45,6 +45,32 @@ class StudentsController extends Crud {
             throw (error)
         }
     }
+
+    async updateStudent(_id, studentObj) {
+
+        try {
+
+            const student = buildStudent(studentObj)
+
+            return await this.findOneAndUpdate(student, { _id })
+
+        } catch (error) {
+
+            throw (error)
+        }
+    }
+
+    async deleteStudent(_id) {
+
+        try {
+
+            return await this.deleteOne({ _id })
+
+        } catch (error) {
+
+            throw (error)
+        }
+    }
 }
 
 export { StudentsController }

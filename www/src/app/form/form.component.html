@@ -1,4 +1,4 @@
-<div class="form-container">
+<form [formGroup]="form" (ngSubmit)="saveStudent()" class="form-container">
 
     <h2>Student Form</h2>
 
@@ -6,17 +6,17 @@
         <div class="form-row">
             <mat-form-field [style.width.%]="48" appearance="fill">
                 <mat-label>Name</mat-label>
-                <input matInput placeholder="Miguel">
+                <input required formControlName="name" matInput placeholder="Miguel">
             </mat-form-field>
             <mat-form-field [style.width.%]="48" appearance="fill">
                 <mat-label>Las Name</mat-label>
-                <input matInput placeholder="Miguel">
+                <input formControlName="lastName" required matInput placeholder="Alcántara">
             </mat-form-field>
         </div>
         <div class="form-row">
             <mat-form-field [style.width.vw]="100" appearance="fill">
                 <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker">
+                <input formControlName="birthDate" required matInput [matDatepicker]="picker">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
@@ -24,17 +24,17 @@
         <div class="form-row">
             <mat-form-field [style.width.vw]="100" appearance="fill">
                 <mat-label>Bio</mat-label>
-                <textarea matInput
+                <textarea formControlName="bio" matInput
                     placeholder="Write the biography or upload"></textarea>
             </mat-form-field>
         </div>
     </div>
 
     <div class="button-container">
-        <button mat-mini-fab color="red" aria-label="Upload students">
+        <button type="button" mat-mini-fab color="red" aria-label="Upload students">
             <mat-icon>upload</mat-icon>
         </button>
-        <button routerLink="" class="flex-item" mat-raised-button color="warn">Cancel</button>
-        <button routerLink="" class="flex-item" mat-raised-button color="primary">Save</button>
+        <button type="button" routerLink="" class="flex-item" mat-raised-button color="warn">Cancel</button>
+        <button [disabled]="!form.valid" type="submit" class="flex-item" mat-raised-button color="primary">Save</button>
     </div>
-</div>
+</form>

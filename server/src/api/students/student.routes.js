@@ -57,6 +57,40 @@ class StudentsRoute extends BaseRoute {
                 this.notOkResponse(res, error)
             }
         })
+
+        this.router.put("/:_id", bodyParser.json(), async (req, res) => {
+
+            try {
+
+                const { _id } = req.params
+
+                const obj = req.body
+
+                const data = await studentsController.updateStudent(_id, obj)
+
+                this.okResponse(res, data)
+
+            } catch (error) {
+
+                this.notOkResponse(res, error)
+            }
+        })
+
+        this.router.delete("/:_id", async (req, res) => {
+
+            try {
+
+                const { _id } = req.params
+
+                const data = await studentsController.deleteStudent(_id)
+
+                this.okResponse(res, data)
+
+            } catch (error) {
+
+                this.notOkResponse(res, error)
+            }
+        })
     }
 }
 

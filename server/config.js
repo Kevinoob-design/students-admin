@@ -14,4 +14,5 @@ if (process.env.NODE_ENV === "development") {
 
     process.env.DB_NAME = process.env.DB_NAME || "students-admin"
 
+    process.env.ORIGINS = process.env.ORIGINS || "*"
 }

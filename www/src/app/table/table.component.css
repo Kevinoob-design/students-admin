@@ -33,3 +33,23 @@ table {
 .demo-row-is-clicked {
   font-weight: bold;
 }
+
+.buttonInvisible {
+  opacity: 0 !important;
+}
+
+.w-35{
+  width: 35%;
+}
+
+.w-20{
+  width: 20%;
+}
+
+.w-10{
+  width: 5%;
+}
+
+.btn-action {
+  margin-left: 5px;
+}

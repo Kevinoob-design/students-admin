@@ -36,7 +36,7 @@ class Crud extends MongoConnection {
 
             await this.initializeConnection()
 
-            if (filter && typeof filter !== "object") throw new Error("Where must be an object")
+            if (filter && typeof filter !== "object") throw new Error("Filter must be an object")
 
             if (filter._id) filter._id = this.ObjectId(filter._id)
 
@@ -87,7 +87,7 @@ class Crud extends MongoConnection {
 
             await this.initializeConnection()
 
-            if (filter && typeof filter !== "object") throw new Error("Where must be an object")
+            if (filter && typeof filter !== "object") throw new Error("Filter must be an object")
 
             if (filter._id) filter._id = this.ObjectId(filter._id)
 
@@ -137,7 +137,9 @@ class Crud extends MongoConnection {
 
             if (updateFields._id) throw new Error("ID cannot be changed")
 
-            if (!filter && typeof filter !== "object") throw new Error("Where must be an object")
+            if (!filter && typeof filter !== "object") throw new Error("Filter must be an object")
+
+            if (filter._id) filter._id = this.ObjectId(filter._id)
 
             const document = await this.dbCollection.findOneAndUpdate(
 
@@ -147,6 +149,28 @@ class Crud extends MongoConnection {
 
                 { returnDocument: "after" }
             )
+
+            this.mongoClient.close()
+
+            return document
+
+        } catch (error) {
+
+            throw (error)
+        }
+    }
+
+    async deleteOne(filter) {
+
+        try {
+
+            await this.initializeConnection()
+
+            if (!filter && typeof filter !== "object") throw new Error("Filter must be an object")
+
+            if (filter._id) filter._id = this.ObjectId(filter._id)
+
+            const document = await this.dbCollection.deleteOne({ ...filter, ...this.where })
 
             this.mongoClient.close()
 

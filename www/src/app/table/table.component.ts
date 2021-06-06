@@ -1,26 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
-
-export interface PeriodicElement {
-  name: string
-  lastName: string
-  age: number
-  bio: string
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: "Hector", lastName: 'Hydrogen', age: 1.0079, bio: 'H' },
-  { name: "Hector", lastName: 'Helium', age: 4.0026, bio: 'He' },
-  { name: "Hector", lastName: 'Lithium', age: 6.941, bio: 'Li' },
-  { name: "Hector", lastName: 'Beryllium', age: 9.0122, bio: 'Be' },
-  { name: "Hector", lastName: 'Boron', age: 10.811, bio: 'B' },
-  { name: "Hector", lastName: 'Carbon', age: 12.0107, bio: 'C' },
-  { name: "Hector", lastName: 'Nitrogen', age: 14.0067, bio: 'N' },
-  { name: "Hector", lastName: 'Oxygen', age: 15.9994, bio: 'O' },
-  { name: "Hector", lastName: 'Fluorine', age: 18.9984, bio: 'F' },
-  { name: "Hector", lastName: 'Neon', age: 20.1797, bio: 'Ne' },
-]
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { Router } from '@angular/router'
+import { student } from '../student'
+import { TableService } from './table.service'
 
 @Component({
   selector: 'app-table',
@@ -30,16 +14,59 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 export class TableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = [ 'Name', 'Last Name', 'Age', 'Bio' ]
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA)
+  hoveredRow: any
+  students: student[] = []
+  displayedColumns: string[] = [ 'Name', 'Last Name', 'Age', 'Bio', 'Actions' ]
+  dataSource = new MatTableDataSource<student>(this.students)
   @ViewChild(MatPaginator) paginator: any
 
-  constructor () {}
+  constructor (
+    private tableService: TableService,
+    private router: Router,
+    private _snackBar: MatSnackBar) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getStudents()
+  }
 
   ngAfterViewInit() {
 
-    this.dataSource.paginator = this.paginator
+    this.paginator.page.subscribe(() => {
+
+      const limit = this.paginator?.pageSize || 10
+      const page = this.paginator?.pageIndex + 1 || 1
+
+      this.getStudents(limit, page)
+    })
+  }
+
+  getStudents(limit = 10, page = 1) {
+
+    this.tableService.getStudents({ limit, page }).subscribe(students => {
+      this.dataSource.data = students.data
+      this.paginator.length = students.count
+    })
+  }
+
+  getStudent(_id: string) {
+
+    this.router.navigate([ "form" ], { queryParams: { id: _id } })
+  }
+
+  deleteStudent(_id: string) {
+    this.tableService.deleteStudent(_id).subscribe(student => {
+
+      if (student.success) this._snackBar.open("Student deleted successfully", "Dismiss")
+
+      this.dataSource.data = this.dataSource.data.filter(student => student._id !== _id)
+    })
+  }
+
+  mouseOverRow(row: any) {
+    this.hoveredRow = row;
+  }
+
+  mouseLeaveRow(row: any) {
+    this.hoveredRow = null;
   }
 }
