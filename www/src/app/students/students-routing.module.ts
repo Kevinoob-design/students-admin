@@ -6,7 +6,7 @@ import { StudentsTableComponent } from './students-table/students-table.componen
 const routes: Routes = [
   { path: '', component: StudentsTableComponent },
   { path: 'form', component: StudentsFormComponent },
-  { path: '**', component: StudentsTableComponent }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
