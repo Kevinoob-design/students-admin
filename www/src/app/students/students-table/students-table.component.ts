@@ -99,6 +99,7 @@ export class StudentsTableComponent implements OnInit, AfterViewInit {
 
     this.filter = (<HTMLInputElement>event.target).value
     const limit = this.paginator?.pageSize || 10
+    this.paginator.firstPage()
 
     this.getStudents(1, limit, this.filter)
   }
