@@ -42,7 +42,7 @@
             <ng-container matColumnDef="Actions">
                 <th class="w-20" mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <button (click)="deleteStudent(element._id)"
+                    <button (click)="openDialog(element)"
                         [class.buttonInvisible]='!hoveredRow || (element._id !== hoveredRow._id)' type="button"
                         class="btn-action" mat-button color="warn">
                         <mat-icon>delete</mat-icon>

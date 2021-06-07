@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.title ? data.title : "Operation"}}</h1>
+<div mat-dialog-content>
+    <p>{{data.message ? data.message : "Are you sure you want to proceed?"}}</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick(false)">Cancel</button>
+    <button color="warn" mat-button (click)="onNoClick(true)">Yes</button>
+</div>

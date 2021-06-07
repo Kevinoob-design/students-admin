@@ -15,15 +15,19 @@ import { MatInputModule } from '@angular/material/input'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
+
 import { StudentsRoutingModule } from './students-routing.module';
 
 import { StudentsFormComponent } from './students-form/students-form.component';
 import { StudentsTableComponent } from './students-table/students-table.component';
+import { StudentsDialogComponent } from './students-dialog/students-dialog.component';
 
 @NgModule({
   declarations: [
     StudentsFormComponent,
-    StudentsTableComponent
+    StudentsTableComponent,
+    StudentsDialogComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +44,8 @@ import { StudentsTableComponent } from './students-table/students-table.componen
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ]
 })
 

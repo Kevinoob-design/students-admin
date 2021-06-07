@@ -2,12 +2,13 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router'
 import { student } from '../../models/student'
 import { StudentsServiceService } from '../students.service'
 import { xml2js } from "xml-js"
-import { environment } from '../../../environments/environment'
 import { saveAs } from "file-saver"
+import { StudentsDialogComponent } from '../students-dialog/students-dialog.component'
 
 @Component({
   selector: 'app-students-table',
@@ -25,7 +26,8 @@ export class StudentsTableComponent implements OnInit, AfterViewInit {
   constructor (
     private tableService: StudentsServiceService,
     private router: Router,
-    private _snackBar: MatSnackBar) {}
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getStudents()
@@ -146,6 +148,18 @@ export class StudentsTableComponent implements OnInit, AfterViewInit {
 
       this.dataSource.data = this.dataSource.data.filter(student => student._id !== _id)
     })
+  }
+
+  openDialog(student: student): void {
+    const dialogRef = this.dialog.open(StudentsDialogComponent, {
+      width: '250px',
+      data: { title: "Deleting Student", message: `are you sure you want to delete ${student.name}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) this.deleteStudent(student._id!)
+    });
   }
 
   mouseOverRow(row: any) {
