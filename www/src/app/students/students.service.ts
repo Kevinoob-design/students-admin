@@ -9,7 +9,8 @@ import { resultsResponse, okResponse } from '../models/response'
 
 export interface studentsQuery {
   page: number,
-  limit: number
+  limit: number,
+  filter: string
 }
 
 @Injectable({
@@ -23,7 +24,7 @@ export class StudentsServiceService {
 
   getStudents(query: studentsQuery): Observable<resultsResponse<student[]>> {
 
-    const url = `${this.studentsUrl}?page=${query.page}&limit=${query.limit}`
+    const url = `${this.studentsUrl}?page=${query.page}&limit=${query.limit}&filter=${query.filter}`
 
     return this.http.get<resultsResponse<student[]>>(url)
   }

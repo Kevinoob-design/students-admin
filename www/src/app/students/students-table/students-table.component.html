@@ -1,13 +1,22 @@
 <div class="table-container">
-    <div class="button-container">
-        <input (change)="uploadStudentsViaXML($event)" accept=".xml" hidden type="file" name="file" id="fileInput"
-            #fileInput>
 
-        <button (click)="fileInput.click()" mat-mini-fab color="" aria-label="Upload students">
-            <mat-icon>upload</mat-icon>
-        </button>
+    <div class="top-table-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Search for students</mat-label>
+            <input (change)="searchStudents($event)" matInput placeholder="Nelie O'Mullan">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
 
-        <button routerLink="form" class="flex-item" mat-raised-button color="primary">Add student</button>
+        <div class="button-container">
+            <input (change)="uploadStudentsViaXML($event)" accept=".xml" hidden type="file" name="file" id="fileInput"
+                #fileInput>
+
+            <button (click)="fileInput.click()" mat-mini-fab color="" aria-label="Upload students">
+                <mat-icon>upload</mat-icon>
+            </button>
+
+            <button routerLink="form" class="flex-item" mat-raised-button color="primary">Add student</button>
+        </div>
     </div>
 
     <div class="mat-elevation-z8">

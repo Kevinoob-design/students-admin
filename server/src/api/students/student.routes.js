@@ -19,9 +19,11 @@ class StudentsRoute extends BaseRoute {
 
             try {
 
-                const { page, limit } = req.query
+                const { page, limit, filter } = req.query
 
-                const { data, currentPage, count } = await studentsController.getStudents({ page, limit })
+                const { data, currentPage, count } = await studentsController.getStudents(
+                    { page, limit, filter }
+                )
 
                 this.resultsResponse(res, data, currentPage, count)
 
@@ -69,7 +71,7 @@ class StudentsRoute extends BaseRoute {
 
                 const obj = req.body
 
-                if (req.files && req.files.uploads && req.files.uploads.path) 
+                if (req.files && req.files.uploads && req.files.uploads.path)
                     obj.bio = req.files.uploads.path
 
                 const data = await studentsController.insertStudent(obj)
@@ -106,7 +108,7 @@ class StudentsRoute extends BaseRoute {
 
                 const obj = req.body
 
-                if (req.files && req.files.uploads && req.files.uploads.path) 
+                if (req.files && req.files.uploads && req.files.uploads.path)
                     obj.bio = req.files.uploads.path
 
                 const data = await studentsController.updateStudent(_id, obj)

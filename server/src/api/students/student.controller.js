@@ -38,6 +38,20 @@ class StudentsController extends Crud {
 
         try {
 
+            if (filter && typeof filter === "string") {
+
+                filter = {
+                    $or: [
+                        {
+                            name: new RegExp(filter, "gi")
+                        },
+                        {
+                            lastName: new RegExp(filter, "gi")
+                        }
+                    ]
+                }
+            }
+
             return await this.find(filter, page, limit)
 
         } catch (error) {

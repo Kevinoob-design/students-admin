@@ -35,13 +35,7 @@ export class StudentsTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
 
-    this.paginator.page.subscribe(() => {
-
-      const limit = this.paginator?.pageSize || 10
-      const page = this.paginator?.pageIndex + 1 || 1
-
-      this.getStudents(limit, page)
-    })
+    this.paginator.page.subscribe(() => this.getStudents())
   }
 
   uploadStudentsViaXML($event: any) {
@@ -92,9 +86,19 @@ export class StudentsTableComponent implements OnInit, AfterViewInit {
     fileReader.readAsText(studentsFile);
   }
 
-  getStudents(limit = 10, page = 1) {
+  searchStudents(event: Event) {
 
-    this.tableService.getStudents({ limit, page }).subscribe(students => {
+    const filter = (<HTMLInputElement>event.target).value
+
+    this.getStudents(filter)
+  }
+
+  getStudents(filter: string = "") {
+
+    const limit = this.paginator?.pageSize || 10
+    const page = this.paginator?.pageIndex + 1 || 1
+
+    this.tableService.getStudents({ limit, page, filter }).subscribe(students => {
       this.dataSource.data = students.data
       this.paginator.length = students.count
     })
