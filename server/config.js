@@ -1,3 +1,5 @@
+import fs from "fs"
+
 // Initializes env with default values if not provided.
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development"
@@ -15,4 +17,9 @@ if (process.env.NODE_ENV === "development") {
     process.env.DB_NAME = process.env.DB_NAME || "students-admin"
 
     process.env.ORIGINS = process.env.ORIGINS || "*"
+}
+
+if (!fs.existsSync("./uploads")) {
+
+    fs.mkdirSync("./uploads", { recursive: true })
 }

@@ -8,7 +8,7 @@ RUN cd www && npm install && npm run build
 FROM node:14.16.0 AS server
 WORKDIR /usr/src/students-admin
 COPY server/ ./server/
-RUN cd server && npm install
+RUN cd server && npm install && mkdir uploads
 
 # Final dokcerize
 FROM node:14.16.0

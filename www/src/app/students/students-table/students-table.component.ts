@@ -17,6 +17,7 @@ import { StudentsDialogComponent } from '../students-dialog/students-dialog.comp
 })
 export class StudentsTableComponent implements OnInit, AfterViewInit {
 
+  filter: string = ""
   hoveredRow: any
   students: student[] = []
   displayedColumns: string[] = [ 'Name', 'Last Name', 'Age', 'Bio', 'Actions' ]
@@ -35,7 +36,15 @@ export class StudentsTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
 
-    this.paginator.page.subscribe(() => this.getStudents())
+    this.paginator.page.subscribe(() => {
+
+      const limit = this.paginator?.pageSize || 10
+      const page = this.paginator?.pageIndex + 1 || 1
+
+      this.getStudents(page, limit, this.filter)
+    })
+
+
   }
 
   uploadStudentsViaXML($event: any) {
@@ -88,15 +97,13 @@ export class StudentsTableComponent implements OnInit, AfterViewInit {
 
   searchStudents(event: Event) {
 
-    const filter = (<HTMLInputElement>event.target).value
+    this.filter = (<HTMLInputElement>event.target).value
+    const limit = this.paginator?.pageSize || 10
 
-    this.getStudents(filter)
+    this.getStudents(1, limit, this.filter)
   }
 
-  getStudents(filter: string = "") {
-
-    const limit = this.paginator?.pageSize || 10
-    const page = this.paginator?.pageIndex + 1 || 1
+  getStudents(page: number = 1, limit: number = 10, filter: string = "") {
 
     this.tableService.getStudents({ limit, page, filter }).subscribe(students => {
       this.dataSource.data = students.data

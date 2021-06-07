@@ -3,7 +3,7 @@
     <div class="top-table-container">
         <mat-form-field appearance="outline">
             <mat-label>Search for students</mat-label>
-            <input (change)="searchStudents($event)" matInput placeholder="Nelie O'Mullan">
+            <input (keyup)="searchStudents($event)" matInput placeholder="Nelie O'Mullan">
             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
 
