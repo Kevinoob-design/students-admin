@@ -22,7 +22,8 @@
             <input (change)="uploadStudentsBio($event)" accept=".docx, .pdf, .txt" hidden type="file" name="file"
                 id="fileInput" #fileInput>
 
-            <button (click)="fileInput.click()" style="flex-grow: 1;" [style.height.px]="50" mat-button color="" aria-label="Upload students" type="button">
+            <button (click)="fileInput.click()" style="flex-grow: 1;" [style.height.px]="50" mat-button color=""
+                aria-label="Upload students" type="button">
                 <mat-icon>upload</mat-icon> {{studentsBioFile?.name || 'Upload bio'}}
             </button>
         </div>

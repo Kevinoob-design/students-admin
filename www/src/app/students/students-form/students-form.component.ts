@@ -2,23 +2,22 @@ import { Component, OnInit } from '@angular/core'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router, ActivatedRoute } from '@angular/router'
-import { student } from '../student'
-import { FormService } from './form.service'
+import { student } from '../../models/student'
+import { StudentsServiceService } from '../students.service'
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: [ './form.component.css' ]
+  selector: 'app-students-form',
+  templateUrl: './students-form.component.html',
+  styleUrls: [ './students-form.component.css' ]
 })
-
-export class FormComponent implements OnInit {
+export class StudentsFormComponent implements OnInit {
 
   _id: string | undefined = undefined
   studentsBioFile: any | undefined = undefined
   form: FormGroup
 
   constructor (
-    private formService: FormService,
+    private formService: StudentsServiceService,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
     private router: Router,
@@ -91,4 +90,5 @@ export class FormComponent implements OnInit {
       this.router.navigate([ '' ]);
     })
   }
+
 }

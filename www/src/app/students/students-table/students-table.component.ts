@@ -3,18 +3,18 @@ import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
-import { student } from '../student'
-import { TableService } from './table.service'
+import { student } from '../../models/student'
+import { StudentsServiceService } from '../students.service'
 import { xml2js } from "xml-js"
-import { environment } from '../../environments/environment'
+import { environment } from '../../../environments/environment'
 import { saveAs } from "file-saver"
-@Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: [ './table.component.css' ]
-})
 
-export class TableComponent implements OnInit, AfterViewInit {
+@Component({
+  selector: 'app-students-table',
+  templateUrl: './students-table.component.html',
+  styleUrls: [ './students-table.component.css' ]
+})
+export class StudentsTableComponent implements OnInit, AfterViewInit {
 
   hoveredRow: any
   students: student[] = []
@@ -23,7 +23,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: any
 
   constructor (
-    private tableService: TableService,
+    private tableService: StudentsServiceService,
     private router: Router,
     private _snackBar: MatSnackBar) {}
 
