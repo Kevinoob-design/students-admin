@@ -16,4 +16,4 @@ WORKDIR /usr/src/students-admin
 COPY --from=client-build /usr/src/students-admin/www/dist ./dist
 COPY --from=server /usr/src/students-admin/server ./
 
-CMD [ "/bin/bash" ]
+CMD [ "npm", "start" ]
