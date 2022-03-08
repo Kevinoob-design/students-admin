@@ -3,5 +3,5 @@ build:
     web: Dockerfile
   config:
     DOCKER_CMD_CLIENT: npm run build:prod
-run:
-  web: bundle exec puma -C config/puma.rb
+# run:
+#   web: bundle exec puma -C config/puma.rb
