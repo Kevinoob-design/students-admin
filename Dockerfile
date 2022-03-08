@@ -2,6 +2,7 @@
 FROM node:14.16.0 AS client-build
 WORKDIR /usr/src/students-admin
 COPY www/ ./www/
+ARG DOCKER_CMD_CLIENT=npm run build
 RUN cd www && npm install && npm run build
 
 # Server App setup.

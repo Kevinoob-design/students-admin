@@ -6,10 +6,12 @@ services:
         build: ./
         command: npm start
 
+        env_file:
+            - .env
         environment: 
             NODE_ENV: development
             PORT: 3000
-            MONGO_HOST: mongodb://mongo:27017/students-admin
+            MONGO_HOST: ${MONGO_HOST:-mongodb://mongo:27017/students-admin}
 
         working_dir: /usr/src/students-admin
         ports: 
