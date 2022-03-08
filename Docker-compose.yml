@@ -15,7 +15,7 @@ services:
         ports: 
             - "3000:3000"
         volumes: 
-            - ./:/usr/src/students-admin/server
+            - $PWD/server/uploads:/usr/src/students-admin/uploads
 
     database:
         container_name: mongo
@@ -23,4 +23,4 @@ services:
         ports: 
             - "27018:27017"
         volumes: 
-            - ./:/usr/src/students-admin
+            - $PWD/dbdata:/data/db

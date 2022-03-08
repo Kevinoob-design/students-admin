@@ -6,7 +6,8 @@
     "start": "ng serve",
     "debug-bg": "forever start node_modules/@angular/cli/bin/ng serve",
     "stop-debug-bg": "forever stopall",
-    "build": "ng build --configuration production",
+    "build": "ng build --configuration development",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
